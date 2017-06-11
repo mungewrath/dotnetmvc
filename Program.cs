@@ -11,12 +11,17 @@ namespace dotnetmvctest
     {
         public static void Main(string[] args)
         {
+            string[] urls = new string[] {
+                "http://0.0.0.0:5000", // Needed for Docker
+                "https://localhost:5000" // Needed for Windows
+            };
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls("http://0.0.0.0:5000")
+                .UseUrls(urls)
                 .Build();
 
             host.Run();
