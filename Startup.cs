@@ -18,6 +18,7 @@ namespace dotnetmvctest
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("buildinfo.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -31,6 +32,7 @@ namespace dotnetmvctest
             services.AddMvc();
 
             services.Configure<TestConfig>(Configuration.GetSection("Swag"));
+            services.Configure<BuildInfoConfig>(Configuration.GetSection("BuildInfo"));
             services.AddScoped<IBusinessMan, BusinessMan>();
         }
 

@@ -12,8 +12,8 @@ namespace dotnetmvctest
         public static void Main(string[] args)
         {
             string[] urls = new string[] {
-                "http://0.0.0.0:5000", // Needed for Docker
-                "https://localhost:5000" // Needed for Windows
+                "http://localhost:5000", // Needed for Windows
+                "http://0.0.0.0:5000" // Needed for Docker
             };
 
             var host = new WebHostBuilder()

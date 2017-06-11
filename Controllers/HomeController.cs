@@ -11,12 +11,16 @@ namespace dotnetmvctest.Controllers
     {
         private readonly int TimesBetterThanWindows;
         private readonly string MyString;
+        private readonly BuildInfoConfig buildConfig;
         private IBusinessMan businessBro;
-        public HomeController(IOptions<TestConfig> config, IBusinessMan businessMan)
+        public HomeController(IOptions<TestConfig> config,
+            IOptions<BuildInfoConfig> buildConfig,
+            IBusinessMan businessMan)
         {
             MyString = config.Value.SampleString;
             TimesBetterThanWindows = config.Value.SampleInt;
             businessBro = businessMan;
+            this.buildConfig = buildConfig.Value;
         }
 
         public IActionResult Index()
@@ -26,7 +30,9 @@ namespace dotnetmvctest.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page." + MyString;
+            ViewData["GitBranch"] = buildConfig.GitBranch;
+            ViewData["GitRevision"] = buildConfig.GitHash;
+            ViewData["BuildDate"] = buildConfig.BuildDate.ToString("F");
 
             return View();
         }

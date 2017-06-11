@@ -7,3 +7,4 @@ Some useful things to check out here...
   * Mapping config from json: TestConfig.cs, and Startup.ConfigureServices()
 - Using dependency injection: HomeController and BusinessMan constructors
 - Dockerizing the app: exportToDocker.sh and runDocker.sh scripts [requires Linux environment]
+- Embedding build info: generateGitInfo.sh and BuildInfo.cs
