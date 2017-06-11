@@ -1,0 +1,9 @@
+This was a quick POC to get myself familiar with ASP.NET Core and VS Code.
+
+Some useful things to check out here...
+- Configuring dependency injection: Startup.ConfigureServices()
+- Customizing config:
+  * Per environment: appssettings.<Production/Development>.json
+  * Mapping config from json: TestConfig.cs, and Startup.ConfigureServices()
+- Using dependency injection: HomeController and BusinessMan constructors
+- Dockerizing the app: exportToDocker.sh and runDocker.sh scripts [requires Linux environment]

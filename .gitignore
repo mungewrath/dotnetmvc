@@ -1,0 +1,5 @@
+obj/
+bin/
+
+# Used to publish release
+out/
