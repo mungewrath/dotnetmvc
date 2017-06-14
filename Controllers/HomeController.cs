@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnetmvc.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -10,14 +11,15 @@ namespace dotnetmvctest.Controllers
     public class HomeController : Controller
     {
         private readonly int TimesBetterThanWindows;
-        private readonly string MyString;
+        private readonly string ConfigSampleString;
+
         private readonly BuildInfoConfig buildConfig;
         private IBusinessMan businessBro;
         public HomeController(IOptions<TestConfig> config,
             IOptions<BuildInfoConfig> buildConfig,
             IBusinessMan businessMan)
         {
-            MyString = config.Value.SampleString;
+            ConfigSampleString = config.Value.SampleString;
             TimesBetterThanWindows = config.Value.SampleInt;
             businessBro = businessMan;
             this.buildConfig = buildConfig.Value;
@@ -42,8 +44,26 @@ namespace dotnetmvctest.Controllers
             ViewData["Message"] = string.Format("New MVC is {0} times better than the old one. You can get it for only ${1}",
                TimesBetterThanWindows,
                businessBro.GetSwag());
+           
+            try {
+                SampleDTO dto = GetPostedData();
+                ViewData["SampleResultID"] = dto.id;
+                ViewData["SampleResultBody"] = dto.body;
+            } catch(Exception e) {
+                ViewData["Error"] = e.Message;
+            }
 
             return View();
+        }
+
+        private SampleDTO GetPostedData() {
+            RestSharpClient client = new RestSharpClient();
+            dynamic requestBody = new {
+                title = "foo",
+                body = "bar",
+                userId = 1
+            };
+            return client.Post<SampleDTO>("/", requestBody);
         }
 
         public IActionResult Error()
