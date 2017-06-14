@@ -1,0 +1,5 @@
+{
+    "DbSettings": {
+        "ConnectionString": "server=sampleserver.us-west-2.rds.amazonaws.com;user id=cooleruser;password=highlysecure;database=mytable"
+    }
+}

@@ -9,3 +9,4 @@ Some useful things to check out here...
 - Dockerizing the app: exportToDocker.sh and runDocker.sh scripts [requires Linux environment]
 - Embedding build info: generateGitInfo.sh and BuildInfo.cs
 - RestSharp client: HomeController.GetAttachmentFromPrivateServices()
+- Postgres DB interaction: SampleDataAccess and the DataAccess folder

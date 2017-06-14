@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnetmvc.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using dotnetmvc.Config;
 
 namespace dotnetmvctest
 {
@@ -19,6 +22,7 @@ namespace dotnetmvctest
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("buildinfo.json", optional: true)
+                .AddJsonFile("dbsettings.json", optional: false)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -33,7 +37,16 @@ namespace dotnetmvctest
 
             services.Configure<TestConfig>(Configuration.GetSection("Swag"));
             services.Configure<BuildInfoConfig>(Configuration.GetSection("BuildInfo"));
+
             services.AddScoped<IBusinessMan, BusinessMan>();
+            services.AddScoped<ISampleDataAccess, SampleDataAccess>();
+
+            string dbConnectionString = Configuration["DbSettings:ConnectionString"];
+            services.AddDbContext<SamplePostgresDbContext>(options =>
+		        options.UseNpgsql(
+			        dbConnectionString
+		        )
+	        );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
